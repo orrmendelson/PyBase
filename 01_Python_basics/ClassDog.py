@@ -1,6 +1,3 @@
-from sympy.combinatorics.generators import rubik
-
-
 class Farm:
     animals = []
 
@@ -14,9 +11,21 @@ class Farm:
                 max_age = animal.age
         return max_age
 
+    def hungry_status(self):
+        hungry_num = 0
+        for animal in self.animals:
+            if animal.is_hungry:
+                hungry_num += 1
+        return hungry_num == len(self.animals)
+
+    def speak(self, sound):
+        for animal in self.animals:
+            print("  ",animal.speak(sound))
+
 
 class Dog:
     species = 'mammal'
+    is_hungry = True
 
     # def __init__(self):
     #     self.age = 0
@@ -28,6 +37,9 @@ class Dog:
 
     def __str__(self):
         return "Dog: age is "+str(self.age)+", name is "+self.name
+
+    def eat(self):
+        self.is_hungry = False
 
     # instance method
     def description(self):
@@ -58,6 +70,7 @@ class OtherBreed(Dog):
 # #################################
 # TESTS
 # #######################
+print("\nObjects tests:")
 dog1 = Dog("Jake", 7)
 dog2 = Dog("Doug", 4)
 dog3 = Dog("William", 5)
@@ -74,11 +87,19 @@ if dog1.species == "mammal":
 
 print(dog1.speak("Hauuu!"))
 print(dog1.description())
-
+# #################################
 dogs = [dog1, dog2, dog3, dog4]
 farm = Farm(dogs)
+print("\nFarm:")
 print("Max animals age:", farm.get_oldest_animal())
+print("All farm animals are hungry?", farm.hungry_status())
+print("dog1 eats...", dog1.eat())
+print("All farm animals are hungry?", farm.hungry_status())
+print("Farm speak:")
+farm.speak("Miau")
 
+# #################################
+print("\nInheritance:")
 # create inheriting class
 russelDog = RussellTerrier()
 print(russelDog.run(34))
@@ -105,3 +126,4 @@ print("instance of sibling 1 Class is instance of 2nd sibling Class? : ", isinst
 
 otherBreed = OtherBreed()
 print("otherBreed: override parent member value to:", otherBreed.species)
+
